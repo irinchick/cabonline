@@ -12,6 +12,7 @@ ReactDOM.render(
         <Switch>
             <Route exact path="/" component={App} />
             <Route path="/blog" component={Blog} />
+            <Route path="/post/:id" component={App} />
         </Switch>
     </Router>, document.getElementById('root'));
 registerServiceWorker();
