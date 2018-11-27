@@ -1,9 +1,7 @@
-
-/**
- * Created by irynazirukina on 2018-05-17.
- */
 import { action, observable } from 'mobx'
-import { BlogData } from '../utils/data'
+import Api from "../utils/api";
+
+
 export class Store {
     @observable  _loading = false;
     @observable  posts = [];
@@ -11,11 +9,9 @@ export class Store {
     @action
     load() {
         this._loading = true;
-        this.posts = BlogData;
-    }
-
-    @action
-    reset(){
+        return Api.Products.all().then((response)=>{
+            this.posts = response.data.map(product => product.id)
+        })
 
     }
 

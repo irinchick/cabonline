@@ -3,7 +3,7 @@ import logo from '../assets/images/logo.svg';
 import '../assets/styles/App.css';
 import { observer } from 'mobx-react'
 import blogStore from '../stores/BlogStore'
-import { Link } from "react-router-dom";
+import blogPostStore from '../stores/BlogpostStore'
 
 @observer
 class Blog extends Component {
@@ -11,16 +11,20 @@ class Blog extends Component {
         blogStore.load()
     }
     render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to My blog</h1>
-                </header>
-                {blogStore.posts.map((p)=>{return <BlogEntry entry={p} />} )}
-            </div>
-        );
+        if (blogStore.posts.length) {
+            return (
+                <div className="App">
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo"/>
+                        <h1 className="App-title">Welcome to My blog</h1>
+                    </header>
+                    {blogStore.posts.map(p => <BlogEntry key={p} entry={p}/>)}
+                </div>
+            )
+        }
+        else return <span />
     }
+
 }
 
 export default Blog;
@@ -29,13 +33,15 @@ export default Blog;
 
 @observer
 export class BlogEntry extends Component {
+    constructor(props){
+        super(props)
+    }
+    componentWillMount(){
+        blogPostStore.load(this.props.entry)
+    }
     render() {
         return (
-            <Link to={`/post/${this.props.entry.id}`} >
-                <h1>{this.props.entry.title}</h1>
-                <p>{this.props.entry.post}</p>
-                <p>{`Comments(${this.props.entry.comments.length})`}</p>
-            </Link>
+            <div>;alsdslk.skd</div>
         );
     }
 }
