@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx'
-import { BlogData } from '../utils/data'
+
+
 export class Store {
 
 

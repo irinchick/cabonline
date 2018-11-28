@@ -55,6 +55,14 @@ const Api = {
                 url: '/products',
             })
         }
+    },
+    Assets: {
+        find: (id) => {
+            return call({
+                method: 'GET',
+                url: `/assets/${id}`
+            })
+        }
     }
 }
 
