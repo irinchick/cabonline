@@ -1,47 +1,51 @@
 import React, { Component } from 'react';
-import '../assets/styles/App.css';
+import '../assets/styles/Catalogue.css';
 import { observer } from 'mobx-react'
 import catalogueStore from '../stores/catalogueStore'
+import { Link } from "react-router-dom";
 
 @observer
 class Catalog extends Component {
     componentWillMount(){
-       catalogueStore.load()
+        if(!catalogueStore.products.length){
+            catalogueStore.load()
+        }
     }
     render() {
-        if (catalogueStore.products) {
-            return (
-                <div className="App">
-                    <header className="App-header">
-                        <h1 className="App-title">sdsdf</h1>
+        if (catalogueStore.loading)
+            return <h1>Loading</h1>
+            return (<div className="App">
+                    <header>
+
                     </header>
-                    {catalogueStore.products.map(product => <ProductItem key={product.id} product={product} /> )}
+                    <div className="catalogue">
+                        {catalogueStore.products.map(product => <ProductItem key={product.id} product={product} /> )}
+                    </div>
                 </div>
             )
-        }
-        else return <span />
     }
 
 }
-
 export default Catalog;
+
+
+
 
 @observer
 class ProductItem extends Component {
 
     render() {
-            const product = this.props.product;
-            let images = catalogueStore.productImages();
-            let productImage = product.main_image ? images[product.main_image.id] : null;
-            console.log(images, productImage, product.main_image.id)
+        let product = this.props.product
             return (
-                <div className="App">
-                    <header className="App-header">
-                        <h1 className="App-title">{product.name}</h1>
-                        <img src={productImage} />
-                    </header>
 
-                </div>
+                    <div className="product_item">
+                        <img src={catalogueStore.getImageById(product.main_image.id)} alt={product.name} />
+                        <h5 className="product_title">{product.name}</h5>
+                        <p className="product_size">{`${product.size} MM`}</p>
+                        <p className="product_price">{`${product.price.value} ${product.price.unitAbbreviation}`}</p>
+                        <Link to={`/product/${product.id}`}>See details</Link>
+                    </div>
+
             )
     }
 
